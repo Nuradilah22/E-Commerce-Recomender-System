@@ -9,6 +9,8 @@ Dalam proyek ini, dibangun sistem rekomendasi berbasis data penjualan supermarke
 - **Content-Based Filtering**: Rekomendasi berdasarkan karakteristik produk, seperti jenis produk dan harga.
 - **Collaborative Filtering**: Rekomendasi berdasarkan pola pembelian pelanggan lain yang serupa.
 
+Pemilihan kedua pendekatan ini memungkinkan sistem untuk menggabungkan pemahaman atas karakteristik produk dengan preferensi kolektif dari pelanggan, sehingga menghasilkan rekomendasi yang lebih akurat dan relevan.
+
 Dataset yang digunakan adalah Supermarket Sales Dataset dari Kaggle, yang mencakup informasi transaksi penjualan di toko ritel dengan berbagai fitur seperti: jenis produk (Product Line), cabang toko (Branch), harga (Unit Price), rating produk, total transaksi, tanggal dan waktu pembelian, serta informasi lainnya yang relevan untuk analisis sistem rekomendasi.
 
 Referensi:
