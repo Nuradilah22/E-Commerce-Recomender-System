@@ -21,30 +21,26 @@ Referensi:
 # Business Understanding
 
 ### Problem Statement  
-Dalam konteks e-commerce supermarket: 
-- pelanggan dihadapkan pada tantangan untuk menemukan produk yang sesuai dengan kebutuhannya karena banyaknya variasi produk yang tersedia.
-- Selain itu, kurangnya sistem rekomendasi yang memanfaatkan riwayat pembelian dan preferensi pelanggan menyebabkan rendahnya personalisasi penawaran, yang berdampak pada menurunnya kepuasan dan loyalitas pelanggan.
+Dalam konteks e-commerce supermarket, pelanggan menghadapi kesulitan dalam menemukan produk yang sesuai dengan kebutuhannya karena banyaknya variasi produk yang tersedia. Selain itu, kurangnya  sistem rekomendasi yang memanfaatkan riwayat pembelian dan preferensi pelanggan menyebabkan rendahnya tingkat personalisasi, yang pada akhirnya berdampak pada menurunnya kepuasan serta loyalitas pelanggan terhadap platform.
 
 ### Goals
 Berdasarkan pernyataan masalah di atas, tujuan dari proyek ini adalah:
 1. Membangun sistem rekomendasi berbasis produk yang dapat membantu pelanggan menemukan produk yang relevan dengan preferensinya.
-2. Meningkatkan pengalaman belanja pelanggan melalui rekomendasi yang bersifat personal.
-3. Mengevaluasi dan membandingkan dua pendekatan sistem rekomendasi Content-Based Filtering dan Collaborative Filtering—untuk menentukan metode yang paling efektif dalam konteks data penjualan supermarket.
+2. Meningkatkan pengalaman belanja pelanggan melalui rekomendasi yang bersifat personal dan kontekstual.
+3. Mengevaluasi dan membandingkan dua pendekatan sistem rekomendasi **Content-Based Filtering** dan **Collaborative Filtering** untuk menentukan metode yang paling efektif dalam konteks data penjualan supermarket.
 
 ### Solution Approach
 Untuk mencapai tujuan tersebut, pendekatan solusi yang digunakan terdiri dari:
 
 1. Content-Based Filtering
 
-Sistem rekomendasi ini bekerja dengan menganalisis karakteristik dari produk yang dibeli pelanggan, seperti: jenis produk (_Product Line_), Harga (_Price_), dan Rating produk. Dengan pendekatan ini, pelanggan akan direkomendasikan produk-produk yang mirip dengan yang pernah mereka beli.
+Pendekatan ini menganalisis karakteristik dari produk yang telah dibeli oleh pelanggan, seperti jenis produk (Product Line), harga (Unit Price), dan rating produk. Sistem kemudian merekomendasikan produk-produk yang memiliki kesamaan fitur dengan produk-produk yang sebelumnya diminati oleh pelanggan tersebut.
 
 2. Collaborative Filtering
 
-Pendekatan ini menganalisis interaksi antar pelanggan. Model akan mempelajari kesamaan pola pembelian antar pelanggan dan merekomendasikan produk yang disukai oleh pelanggan lain dengan profil pembelian yang mirip.
+Pendekatan ini berfokus pada perilaku dan interaksi antar pelanggan. Model akan mempelajari pola pembelian dari pelanggan lain yang memiliki kesamaan preferensi, dan merekomendasikan produk yang disukai oleh pelanggan serupa.
 
-Untuk metode ini akan digunakan teknik:
-- Matrix Factorization (dengan pendekatan implicit feedback)
-- Alternating Least Squares (ALS) atau pendekatan serupa
+Untuk Collaborative Filtering, digunakan pendekatan matrix factorization, khususnya dengan mempertimbangkan implicit feedback. Salah satu algoritma yang digunakan adalah Alternating Least Squares (ALS), yang terbukti efektif dalam mengolah data interaksi pelanggan dalam sistem rekomendasi skala besar.
 
 
 
