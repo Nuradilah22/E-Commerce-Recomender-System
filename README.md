@@ -19,16 +19,15 @@ Referensi:
 # Business Understanding
 
 ### Problem Statement  
-Dalam konteks e-commerce supermarket, terdapat beberapa tantangan yang dihadapi, antara lain:
-1. Pelanggan kesulitan menemukan produk yang sesuai kebutuhannya karena banyaknya varian produk yang tersedia.
-2. Kurangnya personalisasi dalam penawaran produk, yang dapat mengurangi minat dan loyalitas pelanggan.
-3. Minimnya sistem rekomendasi yang mampu memanfaatkan riwayat pembelian pelanggan secara efisien.
+Dalam konteks e-commerce supermarket: 
+- pelanggan dihadapkan pada tantangan untuk menemukan produk yang sesuai dengan kebutuhannya karena banyaknya variasi produk yang tersedia.
+- Selain itu, kurangnya sistem rekomendasi yang memanfaatkan riwayat pembelian dan preferensi pelanggan menyebabkan rendahnya personalisasi penawaran, yang berdampak pada menurunnya kepuasan dan loyalitas pelanggan.
 
 ### Goals
 Berdasarkan pernyataan masalah di atas, tujuan dari proyek ini adalah:
-1. Mengembangkan sistem rekomendasi berbasis produk untuk membantu pelanggan menemukan produk yang relevan.
-2. Meningkatkan pengalaman belanja pelanggan dengan menyediakan rekomendasi yang dipersonalisasi.
-3. Membandingkan dua pendekatan sistem rekomendasi (content-based dan collaborative filtering) untuk melihat pendekatan mana yang lebih sesuai dalam konteks data supermarket.
+1. Membangun sistem rekomendasi berbasis produk yang dapat membantu pelanggan menemukan produk yang relevan dengan preferensinya.
+2. Meningkatkan pengalaman belanja pelanggan melalui rekomendasi yang bersifat personal.
+3. Mengevaluasi dan membandingkan dua pendekatan sistem rekomendasi Content-Based Filtering dan Collaborative Filtering—untuk menentukan metode yang paling efektif dalam konteks data penjualan supermarket.
 
 ### Solution Approach
 Untuk mencapai tujuan tersebut, pendekatan solusi yang digunakan terdiri dari:
