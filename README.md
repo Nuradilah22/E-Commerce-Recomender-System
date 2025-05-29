@@ -46,17 +46,17 @@ Untuk Collaborative Filtering, digunakan pendekatan matrix factorization, khusus
 Pada proyek ini, dataset yang digunakan dalam proyek ini adalah Supermarket Sales Dataset yang tersedia secara publik di Kaggle. Dataset ini dapat diakses melalui tautan berikut: [Supermarket-Sales-Dataset](https://www.kaggle.com/datasets/faresashraf1001/supermarket-sales)
 
 ### Variabel-variabel pada tudent Performance Dataset adalah sebagai berikut:
-- 'InvoiceID': ID Transaksi, menunjukkan transaksi unik, akan digunakan untuk Collaborative Filtering.
-- 'Branch' & 'City': Cabang toko yang masing-masing berada di kota yang berbeda.
-- 'Customer type': Ada dua jenis pelanggan yaitu `Member` dan `Normal`.
-- 'Gender': Jenis kelamin pelanggan antara laki-laki (`Male`) dan perempuan (`Female`).
-- 'Product Line': Kategori produk yang dibeli, misalnya Health and beauty, Electronic accesories, Home and lifestyle, dll. Menunjukkan jenis produk yang dibeli, penting untuk Content-based Filtering.
-- 'Unit Price': Harga satuan produk.
-- 'Quantity': Jumlah item yang dibeli
-- 'Total': Total transaksi (Unit price x Quantity).
-- 'Date' & 'Time': waktu transaksi.
-- 'Payment': Metode pembayaran, yang terdapat tiga metode digunakan: `Cash`, `Credit card`, dan `Ewallet`.
-- 'Rating': Penilaian pelanggan terhadap transaksi. Dapat digunakan sebagai implicit feedback atau relevansi produk.
+- `InvoiceID` : ID Transaksi, menunjukkan transaksi unik, akan digunakan untuk Collaborative Filtering.
+- `Branch` & `City` : Cabang toko yang masing-masing berada di kota yang berbeda.
+- `Customer type` : Ada dua jenis pelanggan yaitu `Member` dan `Normal`.
+- `Gender` : Jenis kelamin pelanggan antara laki-laki (`Male`) dan perempuan (`Female`).
+- `Product Line` : Kategori produk yang dibeli, misalnya Health and beauty, Electronic accesories, Home and lifestyle, dll. Menunjukkan jenis produk yang dibeli, penting untuk Content-based Filtering.
+- `Unit Price` : Harga satuan produk.
+- `Quantity` : Jumlah item yang dibeli
+- `Total` : Total transaksi (Unit price x Quantity).
+- `Date` & `Time` : waktu transaksi.
+- `Payment` : Metode pembayaran, yang terdapat tiga metode digunakan: `Cash`, `Credit card`, dan `Ewallet`.
+- `Rating` : Penilaian pelanggan terhadap transaksi. Dapat digunakan sebagai implicit feedback atau relevansi produk.
   
 ### Exploratory Data Analysis
 Exploratory data analysis atau sering disingkat EDA merupakan proses investigasi awal pada data untuk menganalisis karakteristik, menemukan pola, anomali, dan memeriksa asumsi pada data. Teknik ini biasanya menggunakan bantuan statistik dan representasi grafis atau visualisasi.
