@@ -147,7 +147,7 @@ print("Unique Customer Types:", supermarket['Customer type'].unique())
   Dari hasil visualisasi distribusi Quantity dan Total transakasi (gross income), menampilkan distribusi jumlah produk yang terjual ("Quantity") dan total pendapatan dari transaksi ("gross income"), di mana distribusi kuantitas menunjukkan seberapa sering sejumlah unit produk tertentu terjual, sementara distribusi pendapatan kotor dengan estimasi kurva kepadatan (KDE) menggambarkan pola umum dari nilai total transaksi yang terjadi.
 
 # Data Preparation
-Tahap Data Preparation (Persiapan Data) dilakukan untuk membersihkan, mengubah, dan memformat data agar siap digunakan dalam proses pemodelan sistem rekomendasi.
+Tahap Data Preparation (Persiapan Data) dilakukan untuk membersihkan, mengubah, dan memformat data agar siap digunakan dalam proses pemodelan sistem rekomendasi,  proses ini melibatkan ekstraksi fitur produk (Product line, Rating, Unit price), penggabungan fitur menjadi teks, dan penggunaan TF-IDF (Term Frequency-Inverse Document Frequency) untuk mengubah teks tersebut menjadi vektor numerik yang merepresentasikan konten produk. Vektor ini selanjutnya akan digunakan untuk menghitung kemiripan antar produk. Sementara itu, untuk Collaborative Filtering (CF), data dipersiapkan dengan membuat CustomerID unik dari gabungan Customer type dan Gender, memetakan CustomerID dan Product line ke indeks integer, dan membangun sparse matrix yang merepresentasikan interaksi pengguna-produk berdasarkan Quantity pembelian.
 
 Kode dibawah ini melakukan konveri tipe data 
 
@@ -208,9 +208,18 @@ Penggabungan data dilakukan pada kode dibawah ini:
 # Mengabungkan fitur menjadi string untuk TF-IDF
 df_product['features'] = df_product['Product line']  + ' ' + df_product['Rating'].astype(str) + ' ' + df_product['Unit price'].astype(str)
 ```
+
+Kemudian dilakukan proses vektorisasi menggunakan TF-IDF (Term Frequency-Inverse Document Frequency). TF-IDF merupakan teknik yang mengukur seberapa penting suatu term (dalam hal ini, elemen dari fitur gabungan) dalam sebuah dokumen (setiap baris produk di df_product['features']) relatif terhadap seluruh kumpulan dokumen. Term-term yang sering muncul di satu produk tetapi jarang muncul di produk lain akan memiliki bobot lebih tinggi, sehingga membantu membedakan karakteristik unik dari setiap produk. Vektor hasil TF-IDF ini kemudian digunakan untuk menghitung kemiripan antar produk, yang menjadi dasar rekomendasi.
+
+
+  ```python
+  tfidf = TfidfVectorizer()
+  tfidf_matrix = tfidf.fit_transform(df_product['features'])
+  ```
+
 ### CF Data Preparation
 
-Untuk data preparation CF pertama dilakukan pembuatan kolom 'CustomerID' baru dalam DataFrame supermarket dengan menggabungkan 'Customer type' dan 'Gender'. Hal ini dilakukan untuk mendapatkan identitas unik bagi setiap "user" dalam dataset, karena tidak ada ID pengguna asli, yang mana identifikasi unik ini diperlukan untuk membangun matriks interaksi user-item. Selanjutnya melakukan mapping ID user ('CustomerID') dan ID produk ('Product line') yang unik ke dalam indeks integer berurutan. Pemetaan ini krusial karena algoritma CF bekerja dengan matriks yang menggunakan indeks numerik. Terakhir, matriks sparse interaksi user-produk dibangun menggunakan format COO, di mana baris merepresentasikan user, kolom merepresentasikan produk, dan nilainya adalah kuantitas produk yang dibeli user tersebut. Matriks sparse ini menjadi input utama yang efisien untuk melatih model Collaborative Filtering seperti ALS.
+Untuk persiapan data Collaborative Filtering (CF), langkah pertama adalah membuat kolom CustomerID baru dengan menggabungkan Customer type dan Gender untuk mendapatkan identitas unik bagi setiap "pengguna", karena dataset tidak memiliki ID pengguna asli yang eksplisit; identifikasi unik ini esensial untuk membangun matriks interaksi user-item. Selanjutnya, dilakukan mapping ID unik user (CustomerID) dan ID produk (Product line) ke dalam indeks integer berurutan, yang krusial agar algoritma CF dapat bekerja dengan matriks yang menggunakan indeks numerik. Terakhir, matriks sparse interaksi user-produk dibangun dalam format COOrdinate (COO), di mana baris mewakili user, kolom mewakili produk, dan nilai-nilainya adalah kuantitas produk yang dibeli, sehingga menyediakan input utama yang efisien untuk berbagai algoritma Collaborative Filtering.
 
 Pembuatan kolom baru dilakukan pada kode dibawah ini:
 
@@ -236,20 +245,15 @@ data = supermarket['Quantity']
 
 sparse_user_product = coo_matrix((data, (rows, cols)), shape=(len(user_ids), len(product_ids)))
 ```
+
 # Modeling
-Modeling pada tahap awal menghasilkan dua model rekomendasi: satu model Content-Based Filtering berdasarkan kemiripan fitur produk yang diukur dengan cosine similarity dari representasi TF-IDF, dan satu model Collaborative Filtering yang dilatih menggunakan algoritma Alternating Least Squares (ALS) pada matriks sparse interaksi user-produk.
+Modeling pada tahap awal menghasilkan dua model rekomendasi: satu model Content-Based Filtering berdasarkan kemiripan fitur-fitur internal produk seperti kategori produk, rating, dan harga, yang direpresentasikan menggunakan vektor TF-IDF dan diukur dengan Cosine Similarity. Kedua, satu model Collaborative Filtering berdasarkan pola interaksi pengguna dengan produk (dalam hal ini kuantitas pembelian), menggunakan Cosine Similarity antar item (produk) untuk merekomendasikan produk yang serupa berdasarkan perilaku pembelian pengguna lain.
 
 ## 1. Content-Based Filtering (CBF)
-Pendekatan Content-Based Filtering dilakukan dengan memanfaatkan informasi deskriptif dari produk, seperti "Product line", "Rating", dan "Unit price". Informasi ini digabungkan ke dalam satu kolom features, kemudian dilakukan proses vektorisasi menggunakan TF-IDF (Term Frequency-Inverse Document Frequency). TF-IDF merupakan teknik yang mengukur seberapa penting suatu term (dalam hal ini, elemen dari fitur gabungan) dalam sebuah dokumen (setiap baris produk di df_product['features']) relatif terhadap seluruh kumpulan dokumen. Term-term yang sering muncul di satu produk tetapi jarang muncul di produk lain akan memiliki bobot lebih tinggi, sehingga membantu membedakan karakteristik unik dari setiap produk. Vektor hasil TF-IDF ini kemudian digunakan untuk menghitung kemiripan antar produk, yang menjadi dasar rekomendasi.
+Pendekatan Content-Based Filtering dilakukan dengan memanfaatkan fitur-fitur deskriptif dari produk, seperti Product line, Rating, dan Unit price. Fitur-fitur ini diolah menggunakan TF-IDF untuk menciptakan representasi vektor numerik untuk setiap produk. Kemudian, kemiripan antar produk dihitung menggunakan Cosine Similarity berdasarkan vektor TF-IDF ini. Model merekomendasikan produk lain yang memiliki tingkat kemiripan konten tertinggi dengan produk yang sedang diamati atau disukai pengguna.
 
 Kemudian tahap yang dilakukan yaitu:
 
-- Menerapkan TfidfVectorizer
-
-  ```python
-  tfidf = TfidfVectorizer()
-  tfidf_matrix = tfidf.fit_transform(df_product['features'])
-  ```
 - Menunjukkan seberapa mirip setiap produk satu sama lain berdasarkan fitur-fitur yang digunakan
 
   ```python
@@ -306,6 +310,16 @@ Tahapan yang dilakukan yaitu:
   ```
   
   Setelah kode diatas dijalankan, output yang dihasilkan dari `recommend_cf("Electronic accessories", top_n=5)`, output yang dihasilkan adalah daftar 5 produk yang paling mirip dengan "Electronic accessories" berdasarkan pola pembelian kolaboratif user, beserta skor kemiripan Cosine-nya. Output ini mengindikasikan produk-produk yang sering dibeli bersamaan atau oleh user yang sama dengan "Electronic accessories".
+  
+  Korelasi Produk dengan Kategori *Electronic Accessories*
+
+  | Product Line         | Korelasi     |
+  |----------------------|--------------|
+  | Home and Lifestyle   | 0.987936     |
+  | Food and Beverages   | 0.986583     |
+  | Health and Beauty    | 0.981283     |
+  | Fashion Accessories  | 0.980016     |
+  | Sports and Travel    | 0.972875     |
 
 # Evaluasi
   Pada tahap evaluasi, digunakan beberapa metrik evaluasi
